@@ -51,8 +51,10 @@ var Map = React.createClass ({
 
   clearMarkers: function () {
     this._mapMarkers.forEach(function(marker) {
-      marker.setMap(null);
-    });
+      if (!this.map.getBounds().contains(marker.getPosition())) {
+        marker.setMap(null);        
+      }
+    }.bind(this));
   },
 
   attachSecretMessage: function (marker, secretMessage){
