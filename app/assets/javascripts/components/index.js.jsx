@@ -17,7 +17,7 @@ var Index = React.createClass({
 
     return (
       <div>
-        <Map />
+
       </div>
     );
   }
