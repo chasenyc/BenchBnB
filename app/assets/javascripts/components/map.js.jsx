@@ -1,8 +1,12 @@
 var Map = React.createClass ({
   _mapMarkers: [],
+  _marks: [],
 
   getInitialState: function () {
-    return {markers: BenchStore.all()};
+    return {
+      markers: BenchStore.all(),
+      currentBench: BenchStore.currMouseOver()
+    };
   },
 
   componentDidMount: function(){
@@ -28,33 +32,73 @@ var Map = React.createClass ({
       ApiUtil.fetchBenches(totalBounds);
     }.bind(this));
     BenchStore.addChangeListener(this._change);
+    BenchStore.addHighlightChangeListener(this._highlightChange);
   },
 
   _change: function (){
-    this.setState({markers: BenchStore.all()});
+    this.setState({
+      markers: BenchStore.all(),
+      currentBench: BenchStore.currMouseOver()
+    });
     this.placeMarkers();
+  },
+
+  _highlightChange: function () {
+    this.setState({
+      markers: BenchStore.all(),
+      currentBench: BenchStore.currMouseOver()
+    });
+    this.animateMarker();
+  },
+
+  animateMarker: function () {
+    this._mapMarkers.forEach(function (mark, idx) {
+      if (this.state.currentBench != parseInt(mark.getLabel())) {
+
+        mark.setAnimation(null);
+      } else {
+        mark.setAnimation(google.maps.Animation.BOUNCE)
+      }
+    }.bind(this));
   },
 
   placeMarkers: function () {
     this.state.markers.forEach(function (mark) {
-      var myLatlng = new google.maps.LatLng(mark.lat, mark.lng);
-      var marker = new google.maps.Marker({
-        position: myLatlng,
-        map: this.map,
-        title: mark.description
-      });
-      this.attachSecretMessage(marker, mark.description);
-      this._mapMarkers.push(marker);
+      if (!this._marks[mark.id]) {
+        var markId = mark.id;
+        var myLatlng = new google.maps.LatLng(mark.lat, mark.lng);
+        var marker = new google.maps.Marker({
+          position: myLatlng,
+          map: this.map,
+          title: mark.description,
+          label: markId + ''
+        });
+        this.attachSecretMessage(marker, mark.description);
+        this._mapMarkers.push(marker);
+        this._marks[mark.id] = true;
+      }
     }.bind(this));
+    this.checkIfMarkersInBounds();
+  },
 
+  checkIfMarkersInBounds: function () {
+    // console.log(this._mapMarkers.length);
+    this._mapMarkers.forEach(function (marker) {
+      if (this.map.getBounds().contains(marker.getPosition())) {
+        if (!marker.map) {
+          marker.setMap(this.map);
+        }
+      }
+    }.bind(this));
   },
 
   clearMarkers: function () {
-    this._mapMarkers.forEach(function(marker) {
+    this._mapMarkers.forEach(function(marker, idx) {
       if (!this.map.getBounds().contains(marker.getPosition())) {
-        marker.setMap(null);        
+        marker.setMap(null);
       }
     }.bind(this));
+    // console.log(this._mapMarkers);
   },
 
   attachSecretMessage: function (marker, secretMessage){

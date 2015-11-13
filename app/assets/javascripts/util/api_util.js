@@ -9,5 +9,18 @@ var ApiUtil = window.ApiUtil = {
         ApiActions.receiveAll(data);
       }
     });
+  },
+
+  createBench: function (bench) {
+    $.ajax({
+      url: 'api/benches/',
+      type: 'POST',
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(bench),
+      success: function (data) {
+        console.log('holy cow');
+      }
+    });
   }
 };

@@ -1,6 +1,8 @@
 (function (root) {
   var CHANGE_EVENT = "change";
+  var HIGHLIGHT_CHANGE_EVENT = "highlight_change";
   var _benches = [];
+  var _currentMouseOver = -1;
 
   root.BenchStore = $.extend({}, EventEmitter.prototype, {
     all: function () {
@@ -9,7 +11,11 @@
 
     resetBenches: function (benches) {
       _benches = benches;
-      this._changed();
+
+    },
+
+    currMouseOver: function () {
+      return (this._currentMouseOver);
     },
 
     addChangeListener: function (callback) {
@@ -24,11 +30,38 @@
       this.emit(CHANGE_EVENT);
     },
 
+    addHighlightChangeListener: function (callback) {
+      this.on(HIGHLIGHT_CHANGE_EVENT, callback);
+    },
+
+    removeHighlightChangeListener: function (callback) {
+      this.removeListener(HIGHLIGHT_CHANGE_EVENT, callback);
+    },
+
+    _highlightChanged: function () {
+      this.emit(HIGHLIGHT_CHANGE_EVENT);
+    },
+
+    mouseOver: function (id) {
+      this._currentMouseOver = id;
+      this._changed();
+    },
+
     dispatcherId: AppDispatcher.register(function (payload) {
-      if (payload.actionType === BenchConstants.BENCHES_RECEIVED) {
-        BenchStore.resetBenches(payload.benches);
+
+      switch (payload.actionType) {
+        case BenchConstants.BENCHES_RECEIVED:
+          BenchStore.resetBenches(payload.benches);
+          BenchStore._changed();
+          break;
+        case BenchConstants.BENCH_HIGHLIGHTED:
+          BenchStore.mouseOver(payload.benchId);
+          BenchStore._highlightChanged();
+          break;
       }
     })
+
+
 
   });
 

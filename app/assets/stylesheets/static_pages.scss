@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-body, div, a, ul, li, h1 {
+body, div, a, ul, li, h1, h2, h3 {
   font: inherit;
   font-size: 100%;
 
@@ -13,8 +13,61 @@ body, div, a, ul, li, h1 {
   background: transparent;
 }
 
+#content {
+  width: 600px;
+  margin: auto;
+  padding: 20px;
+}
+
+body {
+  background: lightgrey;
+  font-family: sans-serif;
+}
+
 ul {
   list-style: none;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.map {
+  border: 2px solid black;
+}
+
+.new-bench-form {
+  width: 480px;
+  padding: 10px;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+}
+.list {
+  width:504px;
+  height: 500px;
+  overflow: auto;
+}
+
+img.thumb {
+  padding-top: 5px;
+  width: 75px;
+  height: 75px;
+}
+
+li {
+  padding: 0 20px 0 20px;
+  text-align: left;
+  float: left;
+  width: 208px;
+  border: 2px solid black;
+  font-weight: 700;
+  background: darkgrey;
+}
+
+li:hover {
+  background: lightgreen;
+  cursor: pointer;
 }
 
 .map {

@@ -1,7 +1,7 @@
 var Index = React.createClass({
 
   getInitialState: function () {
-    return {benches: BenchStore.all()};
+    return {benches: BenchStore.all(), currentBench: 0};
   },
 
   componentDidMount: function () {
@@ -9,18 +9,29 @@ var Index = React.createClass({
   },
 
   _change: function () {
-    this.setState({benches: BenchStore.all()});
+    this.setState({
+      benches: BenchStore.all()
+    });
   },
+
+  handleMouseOver: function (e) {
+    ListActions.mouseOver(e.currentTarget.id);
+  },
+
+  handleMouseOut: function (e) {
+    ListActions.mouseOver(-1);
+  },
+
 
   render: function () {
 
     return (
-      <div>
+      <div className="list">
         <ul>
           {
             this.state.benches.map(function (bench) {
-              return <li key={bench.description}>{bench.description}</li>;
-            })
+              return <li onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut} key={bench.description} id={bench.id}><img src={bench.image_url} className='thumb'/>{bench.id}: {bench.description}</li>;
+            }.bind(this))
           }
         </ul>
       </div>
