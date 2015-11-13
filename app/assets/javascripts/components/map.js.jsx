@@ -1,4 +1,6 @@
 var Map = React.createClass ({
+  _mapMarkers: [],
+
   getInitialState: function () {
     return {markers: BenchStore.all()};
   },
@@ -10,6 +12,21 @@ var Map = React.createClass ({
       zoom: 15
     };
     this.map = new google.maps.Map(map, mapOptions);
+    this.map.addListener('idle', function() {
+      this.clearMarkers();
+      var bounds = this.map.getBounds();
+      var totalBounds = {
+        northEast: {
+          lat: bounds.getNorthEast().lat(),
+          lng: bounds.getNorthEast().lng()
+        },
+        southWest: {
+          lat: bounds.getSouthWest().lat(),
+          lng: bounds.getSouthWest().lng()
+        },
+      };
+      ApiUtil.fetchBenches(totalBounds);
+    }.bind(this));
     BenchStore.addChangeListener(this._change);
   },
 
@@ -26,7 +43,26 @@ var Map = React.createClass ({
         map: this.map,
         title: mark.description
       });
+      this.attachSecretMessage(marker, mark.description);
+      this._mapMarkers.push(marker);
     }.bind(this));
+
+  },
+
+  clearMarkers: function () {
+    this._mapMarkers.forEach(function(marker) {
+      marker.setMap(null);
+    });
+  },
+
+  attachSecretMessage: function (marker, secretMessage){
+    var infowindow = new google.maps.InfoWindow({
+      content: secretMessage
+    });
+
+    marker.addListener('click', function() {
+      infowindow.open(marker.get('map'), marker);
+    });
   },
 
   render: function () {
