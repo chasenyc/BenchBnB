@@ -54,7 +54,6 @@ var Map = React.createClass ({
   animateMarker: function () {
     this._mapMarkers.forEach(function (mark, idx) {
       if (this.state.currentBench != parseInt(mark.getLabel())) {
-
         mark.setAnimation(null);
       } else {
         mark.setAnimation(google.maps.Animation.BOUNCE)

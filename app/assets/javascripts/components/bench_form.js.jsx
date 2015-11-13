@@ -1,6 +1,6 @@
 var BenchForm = React.createClass({
 
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [React.addons.LinkedStateMixin, ReactRouter.History],
 
   getInitialState: function () {
     return {description: "", lat: "", lng: "", image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png"};
@@ -8,6 +8,7 @@ var BenchForm = React.createClass({
 
   submitHandle: function (e) {
     ApiUtil.createBench(this.state);
+    this.history.pushState(null, '/'); // needs to wait for a success
   },
 
   render: function () {
