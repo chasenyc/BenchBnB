@@ -1,5 +1,5 @@
 var Index = React.createClass({
-
+  mixins: [ReactRouter.History],
   getInitialState: function () {
     return {benches: BenchStore.all(), currentBench: 0};
   },
@@ -22,6 +22,10 @@ var Index = React.createClass({
     ListActions.mouseOver(-1);
   },
 
+  handleClick: function (e) {
+    debugger;
+    this.history.pushState(null, "/bench/" + e.currentTarget.id);
+  },
 
   render: function () {
 
@@ -30,7 +34,7 @@ var Index = React.createClass({
         <ul>
           {
             this.state.benches.map(function (bench) {
-              return <li onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut} key={bench.description} id={bench.id}><img src={bench.image_url} className='thumb'/>{bench.id}: {bench.description}</li>;
+              return <li onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut} onClick={this.handleClick} key={bench.description} id={bench.id}><img src={bench.image_url} className='thumb'/>{bench.id}: {bench.description}</li>;
             }.bind(this))
           }
         </ul>

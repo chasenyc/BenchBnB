@@ -4,12 +4,14 @@ var Show = React.createClass ({
   },
 
   componentDidMount: function () {
+    console.log("didreceive");
     var benchId = parseInt(this.props.params.id);
     SingleBenchStore.addChangeListener(this.changed);
     ApiUtil.fetchBench(benchId);
   },
 
   componentWillReceiveProps: function (newProps) {
+    console.log("willreceive");
     ApiUtil.fetchBench(newProps.params.id);
   },
 
@@ -48,8 +50,11 @@ var Show = React.createClass ({
 
     return (
       <div className="show-bench">
-        <h1>{this.state.bench.description}</h1>
-        <h2>Fits {this.state.bench.seating} people.</h2>
+        <div className="show-details">
+          <h1>{this.state.bench.description}</h1>
+          <h2>Fits {this.state.bench.seating} people.</h2>
+          <img className="bench-image" src={this.state.bench.image_url}></img>
+        </div>
         <div className="map" ref="map">
 
         </div>

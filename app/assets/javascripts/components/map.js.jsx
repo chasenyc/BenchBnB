@@ -24,6 +24,10 @@ var Map = React.createClass ({
 
   },
 
+  componentWillReceiveProps: function () {
+    this._change();
+  },
+
   mapChanged: function () {
     this.clearMarkers();
     FilterActions.changeBounds(this.getBounds());
@@ -72,7 +76,6 @@ var Map = React.createClass ({
   },
 
   placeMarkers: function () {
-
     this.state.markers.forEach(function (mark) {
       if (!this._marks[mark.id]) {
         var markId = mark.id;
@@ -81,7 +84,7 @@ var Map = React.createClass ({
           position: myLatlng,
           map: this.map,
           title: mark.description,
-          label: markId + ''
+          label: markId.toString(16)
         });
         this.attachSecretMessage(marker, mark.description);
         this._mapMarkers.push(marker);
@@ -92,7 +95,6 @@ var Map = React.createClass ({
   },
 
   checkIfMarkersInBounds: function () {
-    // console.log(this._mapMarkers.length);
     this._mapMarkers.forEach(function (marker) {
       if (this.map.getBounds().contains(marker.getPosition())) {
         if (!marker.map) {
@@ -106,24 +108,22 @@ var Map = React.createClass ({
     this._mapMarkers.forEach(function(marker, idx) {
       if (!this.map.getBounds().contains(marker.getPosition())) {
         marker.setMap(null);
-        this._marks[parseInt(marker.label)] = false;
+        this._marks[parseInt(marker.label, 1)] = false;
         this._mapMarkers.splice(idx, 1);
       } else {
         var exists = false;
         BenchStore.all().forEach(function (mark) {
-          if (mark.id === parseInt(marker.label)){
+          if (mark.id === parseInt(marker.label, 16)){
             exists = true;
           }
         });
         if (!exists) {
           marker.setMap(null);
-          this._marks[parseInt(marker.label)] = false;
+          this._marks[parseInt(marker.label, 16)] = false;
           this._mapMarkers.splice(idx, 1);
-
         }
       }
     }.bind(this));
-    // console.log(this._mapMarkers);
   },
 
   attachSecretMessage: function (marker, secretMessage){

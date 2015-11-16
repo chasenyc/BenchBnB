@@ -1,6 +1,6 @@
 var BenchForm = React.createClass({
 
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [React.addons.LinkedStateMixin, ReactRouter.History],
 
   getInitialState: function () {
     return {description: "", lat: "", lng: "", image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png", seating: 3};
@@ -48,8 +48,8 @@ var BenchForm = React.createClass({
             </div>
             <div>
               <label>Seating:
-                <select type="text" valueLink={this.linkState('seating')}>
-                  <option value={1}>1</option>
+                <select type="text" id='seating' valueLink={this.linkState('seating')}>
+                  <option defaultValue={true} value={1}>1</option>
                   <option value={2}>2</option>
                   <option value={3}>3</option>
                   <option value={4}>4</option>
