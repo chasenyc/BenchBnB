@@ -20,10 +20,10 @@
     });
 
     var routes = ([
-        <Route path="/" component={App}>
+        <Route key={1} path="/" component={App}>
           <IndexRoute component={Search}/>
         </Route>,
-        <Route path="/new" component={BenchForm}>
+        <Route key={2} path="/new" component={BenchForm}>
         </Route>
     ]);
 

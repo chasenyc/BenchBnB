@@ -1,6 +1,6 @@
 (function (root) {
 
-  var _filter = {};
+  var _filter = {min: 0, max: 5};
   var CHANGE_EVENT = 'change';
 
   root.FilterStore = $.extend({}, EventEmitter.prototype, {
@@ -21,6 +21,14 @@
       _filter.max = minMax.max;
     },
 
+    _updateMin: function (min) {
+      _filter.min = min;
+    },
+
+    _updateMax: function (max) {
+      _filter.max = max;
+    },
+
     addChangeListener: function (callback) {
       this.on(CHANGE_EVENT, callback);
     },
@@ -30,7 +38,6 @@
     },
 
     _changed: function () {
-      console.log("emitting");
       this.emit(CHANGE_EVENT);
     },
 
@@ -47,6 +54,14 @@
           break;
         case BenchConstants.MINMAX_CHANGED:
           FilterStore._updateMinMax(payload.minMax);
+          FilterStore._changed();
+          break;
+        case BenchConstants.MIN_CHANGED:
+          FilterStore._updateMin(payload.min);
+          FilterStore._changed();
+          break;
+        case BenchConstants.MAX_CHANGED:
+          FilterStore._updateMax(payload.max);
           FilterStore._changed();
           break;
       }

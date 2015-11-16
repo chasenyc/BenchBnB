@@ -18,6 +18,20 @@ var FilterActions = window.FilterActions = {
       actionType: BenchConstants.MINMAX_CHANGED,
       minMax: minMax
     });
+  },
+
+  changeMin: function (min) {
+    AppDispatcher.dispatch({
+      actionType: BenchConstants.MIN_CHANGED,
+      min: min
+    });
+  },
+
+  changeMax: function (max) {
+    AppDispatcher.dispatch({
+      actionType: BenchConstants.MAX_CHANGED,
+      max: max
+    });
   }
 
 };

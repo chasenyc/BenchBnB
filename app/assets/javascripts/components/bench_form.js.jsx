@@ -1,6 +1,6 @@
 var BenchForm = React.createClass({
 
-  mixins: [React.addons.LinkedStateMixin, ReactRouter.History],
+  mixins: [React.addons.LinkedStateMixin],
 
   getInitialState: function () {
     return {description: "", lat: "", lng: "", image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png", seating: 0};

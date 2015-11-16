@@ -1,6 +1,6 @@
 var Search = React.createClass ({
   getInitialState: function () {
-    return {min: 0, max: 5, bounds: {}};
+    return FilterStore.all();
   },
 
   componentDidMount: function () {
@@ -26,6 +26,7 @@ var Search = React.createClass ({
 
     return (
       <div>
+        <FilterParams />
         <Map
           clickHandler={this.mapClickHandler}
           min={this.state.min}
