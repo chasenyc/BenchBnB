@@ -4,5 +4,12 @@ var ReviewActions = window.ReviewActions = {
       actionType: BenchConstants.REVIEWS_RECEIVED,
       reviews: reviews
     });
+  },
+
+  receiveOne: function (review) {
+    AppDispatcher.dispatch({
+      actionType: BenchConstants.REVIEW_RECEIVED,
+      review: review
+    });
   }
 };

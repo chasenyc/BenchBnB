@@ -1,11 +1,18 @@
 var ReviewForm = React.createClass({
 
-  componentDidMount: function () {
+  mixins: [React.addons.LinkedStateMixin],
 
+  getInitialState: function () {
+    return {body: "", button: true};
+  },
+
+  componentDidMount: function () {
+    ReviewStore.addChangeListener(this.submitted);
   },
 
   handleSubmit: function (e) {
     e.preventDefault();
+    this.setState({button: false});
     var rating = e.target.rating.value;
     var body = e.target.body.value;
     var bench_id = parseInt(this.props.params.id);
@@ -13,7 +20,7 @@ var ReviewForm = React.createClass({
   },
 
   submitted: function () {
-
+    this.setState({body: "", button: true});
   },
 
   render: function () {
@@ -32,13 +39,13 @@ var ReviewForm = React.createClass({
           </div>
           <div className="review-body">
             <label>Review:
-              <textarea name="body">
+              <textarea name="body" refs="body" valueLink={this.linkState('body')}>
 
               </textarea>
             </label>
           </div>
           <div className="review-submit">
-            <button>Submit Review!</button>
+            <button disabled={!this.state.button}>Submit Review!</button>
           </div>
         </form>
       </div>

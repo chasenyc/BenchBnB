@@ -4,10 +4,13 @@ var Show = React.createClass ({
   },
 
   componentDidMount: function () {
-    console.log("mounted");
     var benchId = parseInt(this.props.params.id);
     SingleBenchStore.addChangeListener(this.changed);
     ApiUtil.fetchBench(benchId);
+  },
+
+  componentWillReceiveProps: function (newProps) {
+    ApiUtil.fetchBench(newProps.params.id);
   },
 
   changed: function () {
@@ -51,6 +54,7 @@ var Show = React.createClass ({
 
         </div>
         {this.props.children}
+        <ReviewIndex benchId={this.state.bench.id}/>
       </div>
     );
   }

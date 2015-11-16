@@ -1,5 +1,6 @@
 (function (root) {
   var _reviews = [];
+  var _newReview = {};
   var CHANGE_EVENT = "change";
   root.ReviewStore = $.extend({}, EventEmitter.prototype, {
 
@@ -7,8 +8,16 @@
       return _reviews.slice();
     },
 
+    newestReview: function () {
+      return jQuery.extend({}, _newReview);
+    },
+
     resetReviews: function (reviews) {
       _reviews = reviews;
+    },
+
+    addNewReview: function (review) {
+      _newReview = review;
     },
 
     addChangeListener: function (callback) {
@@ -28,6 +37,10 @@
       switch (payload.actionType) {
         case BenchConstants.REVIEWS_RECEIVED:
           ReviewStore.resetReviews(payload.reviews);
+          ReviewStore._changed();
+          break;
+        case BenchConstants.REVIEW_RECEIVED:
+          ReviewStore.addNewReview(payload.review);
           ReviewStore._changed();
           break;
       }
