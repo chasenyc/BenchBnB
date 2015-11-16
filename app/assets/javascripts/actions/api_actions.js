@@ -4,5 +4,12 @@ var ApiActions = window.ApiActions = {
       actionType: BenchConstants.BENCHES_RECEIVED,
       benches: benches
     });
+  },
+
+  receiveOne: function (bench) {
+    AppDispatcher.dispatch({
+      actionType: BenchConstants.BENCH_RECEIVED,
+      bench: bench
+    });
   }
 };

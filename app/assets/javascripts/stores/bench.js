@@ -11,7 +11,6 @@
 
     resetBenches: function (benches) {
       _benches = benches;
-
     },
 
     currMouseOver: function () {

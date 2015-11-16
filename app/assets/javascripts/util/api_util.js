@@ -17,6 +17,20 @@ var ApiUtil = window.ApiUtil = {
     }
   },
 
+  fetchBench: function (id) {
+    console.log("started fetch");
+    var urlStr = 'api/benches/' + id;
+    $.ajax({
+      url: urlStr,
+      type: 'GET',
+      data: 'json',
+      success: function (data){
+        console.log("got result");
+        ApiActions.receiveOne(data);
+      }
+    });
+  },
+
   createBench: function (bench) {
     $.ajax({
       url: 'api/benches/',

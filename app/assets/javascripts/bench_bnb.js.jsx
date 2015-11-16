@@ -24,6 +24,8 @@
           <IndexRoute component={Search}/>
         </Route>,
         <Route key={2} path="/new" component={BenchForm}>
+        </Route>,
+        <Route key={3} path="/bench/:id" component={Show}>
         </Route>
     ]);
 
