@@ -11,5 +11,5 @@ var ApiActions = window.ApiActions = {
       actionType: BenchConstants.BENCH_RECEIVED,
       bench: bench
     });
-  }
+  },
 };

@@ -26,6 +26,7 @@
         <Route key={2} path="/new" component={BenchForm}>
         </Route>,
         <Route key={3} path="/bench/:id" component={Show}>
+          <IndexRoute component={ReviewForm} />
         </Route>
     ]);
 

@@ -1,4 +1,10 @@
 class Bench < ActiveRecord::Base
+  validates :description, :lat, :lng, :seating, :image_url, presence: true
+
+  has_many :reviews,
+    class_name: 'Review',
+    foreign_key: :bench_id,
+    primary_key: :id
 
   def self.in_bounds(bounds,filter_min,filter_max)
     bounds = JSON.parse(bounds)

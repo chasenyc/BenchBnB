@@ -46,9 +46,11 @@ var Show = React.createClass ({
     return (
       <div className="show-bench">
         <h1>{this.state.bench.description}</h1>
+        <h2>Fits {this.state.bench.seating} people.</h2>
         <div className="map" ref="map">
 
         </div>
+        {this.props.children}
       </div>
     );
   }

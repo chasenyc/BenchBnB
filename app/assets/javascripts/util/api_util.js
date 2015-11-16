@@ -39,7 +39,31 @@ var ApiUtil = window.ApiUtil = {
       contentType: 'application/json',
       data: JSON.stringify(bench),
       success: function (data) {
-        console.log('holy cow');
+        ApiActions.receiveOne(data);
+      }
+    });
+  },
+
+  fetchReviews: function (benchId) {
+    $.ajax({
+      url: 'api/benches/' + benchId + "/reviews",
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        console.log('holy cow, reviews returned!!', data);
+      }
+    });
+  },
+
+  createReview: function (review) {
+    $.ajax({
+      url: 'api/benches/' + review.bench_id + "/reviews",
+      type: 'POST',
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(review),
+      success: function (data) {
+        console.log('holy cow, review created!');
       }
     });
   }
