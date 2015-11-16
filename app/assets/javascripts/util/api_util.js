@@ -29,13 +29,13 @@ var ApiUtil = window.ApiUtil = {
     });
   },
 
-  createBench: function (bench) {
+  createBench: function (formData) {
     $.ajax({
       url: 'api/benches/',
       type: 'POST',
-      dataType: 'json',
-      contentType: 'application/json',
-      data: JSON.stringify(bench),
+      processData: false,  // tell jQuery not to process the data
+      contentType: false,   // tell jQuery not to set contentType
+      data: formData,
       success: function (data) {
         ApiActions.receiveOne(data);
       }

@@ -5,7 +5,10 @@ class Api::BenchesController < ApplicationController
   end
 
   def create
+    file = Cloudinary::Uploader.upload(params[:bench][:image_url])
+
     @bench = Bench.new(bench_params)
+    @bench.image_url = file['url']
     if @bench.save
       render json: @bench.to_json
     else

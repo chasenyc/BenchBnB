@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: benchbnb666
+  api_key: '254328782751684'
+  api_secret: DBsE9MfpJe8-MwOCNC9J5lNmtsw
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: benchbnb666
+  api_key: '254328782751684'
+  api_secret: DBsE9MfpJe8-MwOCNC9J5lNmtsw
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: benchbnb666
+  api_key: '254328782751684'
+  api_secret: DBsE9MfpJe8-MwOCNC9J5lNmtsw
+  enhance_image_tag: true
+  static_image_support: false

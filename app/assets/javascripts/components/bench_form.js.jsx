@@ -3,11 +3,19 @@ var BenchForm = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
 
   getInitialState: function () {
-    return {description: "", lat: "", lng: "", image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png", seating: 0};
+    return {description: "", lat: "", lng: "", image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png", seating: 3};
   },
 
   submitHandle: function (e) {
-    ApiUtil.createBench(this.state);
+    var file = document.getElementById('upload').files[0];
+    var newForm = new FormData ();
+    newForm.append("bench[image_url]", file);
+    newForm.append("bench[description]", this.state.description);
+    newForm.append("bench[lat]", this.state.lat);
+    newForm.append("bench[lng]", this.state.lng);
+    newForm.append("bench[seating]", this.state.seating);
+    ApiUtil.createBench(newForm);
+    // ApiUtil.createBench(this.state);
     this.history.pushState(null, '/'); // needs to wait for a success
   },
 
@@ -47,6 +55,11 @@ var BenchForm = React.createClass({
                   <option value={4}>4</option>
                   <option value={5}>5</option>
                 </select>
+              </label>
+            </div>
+            <div>
+              <label>Upload file:
+                <input id="upload" type="file" />
               </label>
             </div>
             <div>
