@@ -1,8 +1,11 @@
 var ApiUtil = window.ApiUtil = {
 
   fetchBenches: function (bounds) {
+    var filterParams = FilterStore.all();
+    var urlStr = 'api/benches?bounds=' + JSON.stringify(filterParams.bounds);
+    urlStr += "&min=" + filterParams.min + "&max=" + filterParams.max;
     $.ajax({
-      url: 'api/benches?bounds=' + JSON.stringify(bounds),
+      url: urlStr,
       type: 'GET',
       data: 'json',
       success: function (data){

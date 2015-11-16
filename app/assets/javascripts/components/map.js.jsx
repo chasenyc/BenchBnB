@@ -16,23 +16,32 @@ var Map = React.createClass ({
       zoom: 15
     };
     this.map = new google.maps.Map(map, mapOptions);
-    this.map.addListener('idle', function() {
-      this.clearMarkers();
-      var bounds = this.map.getBounds();
-      var totalBounds = {
-        northEast: {
-          lat: bounds.getNorthEast().lat(),
-          lng: bounds.getNorthEast().lng()
-        },
-        southWest: {
-          lat: bounds.getSouthWest().lat(),
-          lng: bounds.getSouthWest().lng()
-        },
-      };
-      ApiUtil.fetchBenches(totalBounds);
-    }.bind(this));
+    this.map.addListener('idle', this.mapChanged);
+    this.map.addListener('click', this.props.clickHandler);
     BenchStore.addChangeListener(this._change);
+    FilterStore.addChangeListener(this._change);
     BenchStore.addHighlightChangeListener(this._highlightChange);
+
+  },
+
+  mapChanged: function () {
+    this.clearMarkers();
+    FilterActions.changeBounds(this.getBounds());
+  },
+
+  getBounds: function () {
+    var bounds = this.map.getBounds();
+    var totalBounds = {
+      northEast: {
+        lat: bounds.getNorthEast().lat(),
+        lng: bounds.getNorthEast().lng()
+      },
+      southWest: {
+        lat: bounds.getSouthWest().lat(),
+        lng: bounds.getSouthWest().lng()
+      },
+    };
+    return totalBounds;
   },
 
   _change: function (){
@@ -56,12 +65,13 @@ var Map = React.createClass ({
       if (this.state.currentBench != parseInt(mark.getLabel())) {
         mark.setAnimation(null);
       } else {
-        mark.setAnimation(google.maps.Animation.BOUNCE)
+        mark.setAnimation(google.maps.Animation.BOUNCE);
       }
     }.bind(this));
   },
 
   placeMarkers: function () {
+
     this.state.markers.forEach(function (mark) {
       if (!this._marks[mark.id]) {
         var markId = mark.id;
