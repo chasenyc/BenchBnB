@@ -106,6 +106,8 @@ var Map = React.createClass ({
     this._mapMarkers.forEach(function(marker, idx) {
       if (!this.map.getBounds().contains(marker.getPosition())) {
         marker.setMap(null);
+        this._marks[parseInt(marker.label)] = false;
+        this._mapMarkers.splice(idx, 1);
       } else {
         var exists = false;
         BenchStore.all().forEach(function (mark) {
@@ -115,6 +117,9 @@ var Map = React.createClass ({
         });
         if (!exists) {
           marker.setMap(null);
+          this._marks[parseInt(marker.label)] = false;
+          this._mapMarkers.splice(idx, 1);
+
         }
       }
     }.bind(this));
