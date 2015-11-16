@@ -1,6 +1,6 @@
 (function (root) {
 
-  var _filter = {min: 0, max: 5};
+  var _filter = {min: 1, max: 5};
   var CHANGE_EVENT = 'change';
 
   root.FilterStore = $.extend({}, EventEmitter.prototype, {

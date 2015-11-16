@@ -49,6 +49,7 @@ var Map = React.createClass ({
       markers: BenchStore.all(),
       currentBench: BenchStore.currMouseOver()
     });
+    this.clearMarkers();
     this.placeMarkers();
   },
 
@@ -105,6 +106,16 @@ var Map = React.createClass ({
     this._mapMarkers.forEach(function(marker, idx) {
       if (!this.map.getBounds().contains(marker.getPosition())) {
         marker.setMap(null);
+      } else {
+        var exists = false;
+        BenchStore.all().forEach(function (mark) {
+          if (mark.id === parseInt(marker.label)){
+            exists = true;
+          }
+        });
+        if (!exists) {
+          marker.setMap(null);
+        }
       }
     }.bind(this));
     // console.log(this._mapMarkers);
