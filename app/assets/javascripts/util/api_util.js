@@ -55,9 +55,9 @@ var ApiUtil = window.ApiUtil = {
     });
   },
 
-  createReview: function (review) {
+  createReview: function (review, bench_id) {
     $.ajax({
-      url: 'api/benches/' + review.bench_id + "/reviews",
+      url: 'api/benches/' + bench_id + "/reviews",
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json',

@@ -1,11 +1,19 @@
 var ReviewForm = React.createClass({
 
+  componentDidMount: function () {
 
+  },
 
   handleSubmit: function (e) {
     e.preventDefault();
     var rating = e.target.rating.value;
-    var body = e.target.body.value
+    var body = e.target.body.value;
+    var bench_id = parseInt(this.props.params.id);
+    ApiUtil.createReview({rating: rating, body: body}, bench_id);
+  },
+
+  submitted: function () {
+
   },
 
   render: function () {
